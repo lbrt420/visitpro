@@ -8,28 +8,77 @@ import '../../core/ui/widgets/app_brand_header.dart';
 import '../../core/ui/widgets/async_state_view.dart';
 import 'visits_controller.dart';
 
-class ClientFeedScreen extends ConsumerWidget {
-  const ClientFeedScreen({super.key});
+class ClientFeedScreen extends ConsumerStatefulWidget {
+  const ClientFeedScreen({
+    super.key,
+    this.initialVisitId,
+  });
+
+  final String? initialVisitId;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ClientFeedScreen> createState() => _ClientFeedScreenState();
+}
+
+class _ClientFeedScreenState extends ConsumerState<ClientFeedScreen> {
+  final Map<String, GlobalKey> _visitCardKeys = <String, GlobalKey>{};
+  bool _didJumpToInitialVisit = false;
+  String _lastInitialVisitId = '';
+  String _lastRequestedFocusVisitId = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _lastInitialVisitId = widget.initialVisitId?.trim() ?? '';
+  }
+
+  @override
+  void didUpdateWidget(covariant ClientFeedScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final nextVisitId = widget.initialVisitId?.trim() ?? '';
+    if (nextVisitId != _lastInitialVisitId) {
+      _lastInitialVisitId = nextVisitId;
+      _didJumpToInitialVisit = false;
+      _visitCardKeys.clear();
+      if (nextVisitId.isNotEmpty) {
+        ref.invalidate(clientFeedProvider);
+      }
+    }
+  }
+
+  void _invalidateClientFeed(WidgetRef ref, List<ClientFeedItem> items) {
+    for (final item in items) {
+      ref.invalidate(visitsByPropertyProvider(item.property.id));
+    }
+    ref.invalidate(clientFeedProvider);
+  }
+
+  Future<void> _refreshClientFeed(WidgetRef ref, List<ClientFeedItem> items) async {
+    _invalidateClientFeed(ref, items);
+    await ref.read(clientFeedProvider.future);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final feed = ref.watch(clientFeedProvider);
     final session = ref.watch(sessionProvider);
+    final pendingFocusVisitId = (ref.watch(pendingVisitFocusProvider) ?? '').trim();
+    final routeVisitId = widget.initialVisitId?.trim() ?? '';
+    final targetVisitId = pendingFocusVisitId.isNotEmpty ? pendingFocusVisitId : routeVisitId;
+    _syncFocusTarget(targetVisitId);
 
     return Scaffold(
       body: AsyncStateView<List<ClientFeedItem>>(
         value: feed,
-        onRetry: () => ref.invalidate(clientFeedProvider),
+        onRetry: () => feed.whenData((items) => _invalidateClientFeed(ref, items)),
         data: (items) {
+          _scheduleJumpToInitialVisit(items, targetVisitId);
           if (items.isEmpty) {
             return const _EmptyClientFeedState();
           }
           return RefreshIndicator(
-            onRefresh: () async {
-              ref.invalidate(clientFeedProvider);
-              await ref.read(clientFeedProvider.future);
-            },
+            onRefresh: () => _refreshClientFeed(ref, items),
             child: ListView.separated(
               physics: const AlwaysScrollableScrollPhysics(),
               padding: const EdgeInsets.fromLTRB(0, 16, 0, 100),
@@ -42,6 +91,7 @@ class ClientFeedScreen extends ConsumerWidget {
 
                 final item = items[index - 1];
                 final visit = item.visit;
+                final visitCardKey = _visitCardKeys.putIfAbsent(visit.id, () => GlobalKey());
                 final isClientViewer = session.role == UserRole.client;
                 final isOwnVisit = session.userId != null &&
                     session.userId!.isNotEmpty &&
@@ -52,6 +102,7 @@ class ClientFeedScreen extends ConsumerWidget {
                     .toList();
 
                 return Card(
+                  key: visitCardKey,
                   margin: EdgeInsets.zero,
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -145,6 +196,56 @@ class ClientFeedScreen extends ConsumerWidget {
     );
   }
 
+  void _scheduleJumpToInitialVisit(List<ClientFeedItem> items, String targetVisitId) {
+    if (_didJumpToInitialVisit || targetVisitId.isEmpty) {
+      return;
+    }
+    if (!items.any((item) => item.visit.id == targetVisitId)) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final targetContext = _visitCardKeys[targetVisitId]?.currentContext;
+      if (targetContext == null) {
+        // The target card may not be laid out yet.
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          final retryContext = _visitCardKeys[targetVisitId]?.currentContext;
+          if (retryContext == null) {
+            return;
+          }
+          _didJumpToInitialVisit = true;
+          Scrollable.ensureVisible(
+            retryContext,
+            duration: const Duration(milliseconds: 320),
+            curve: Curves.easeOutCubic,
+            alignment: 0.08,
+          );
+          ref.read(pendingVisitFocusProvider.notifier).clear();
+        });
+        return;
+      }
+      _didJumpToInitialVisit = true;
+      Scrollable.ensureVisible(
+        targetContext,
+        duration: const Duration(milliseconds: 320),
+        curve: Curves.easeOutCubic,
+        alignment: 0.08,
+      );
+      ref.read(pendingVisitFocusProvider.notifier).clear();
+    });
+  }
+
+  void _syncFocusTarget(String targetVisitId) {
+    if (targetVisitId.isEmpty) {
+      _lastRequestedFocusVisitId = '';
+      return;
+    }
+    if (targetVisitId == _lastRequestedFocusVisitId) {
+      return;
+    }
+    _lastRequestedFocusVisitId = targetVisitId;
+    _didJumpToInitialVisit = false;
+  }
+
   String _formatDate(BuildContext context, DateTime date) {
     final material = MaterialLocalizations.of(context);
     final use24h = MediaQuery.of(context).alwaysUse24HourFormat;
@@ -204,7 +305,7 @@ class _FeedPhotoGallery extends StatelessWidget {
         height: 250,
         child: Row(
           children: [
-            Expanded(flex: 2, child: _tile(context, 0)),
+    Expanded(flex: 2, child: _tile(context, 0)),
             const SizedBox(width: 2),
             Expanded(
               child: Column(

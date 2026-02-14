@@ -13,7 +13,12 @@ class PushNotificationsService {
 
   bool _initialized = false;
   Future<void> Function(String token)? _onTokenRefresh;
+  Future<void> Function(RemoteMessage message)? _onForegroundMessage;
+  Future<void> Function(RemoteMessage message)? _onNotificationOpened;
+  StreamSubscription<RemoteMessage>? _foregroundSubscription;
+  StreamSubscription<RemoteMessage>? _notificationOpenSubscription;
   StreamSubscription<String>? _tokenRefreshSubscription;
+  RemoteMessage? _pendingInitialMessage;
 
   Future<void> initialize() async {
     if (_initialized) {
@@ -24,10 +29,32 @@ class PushNotificationsService {
     await FirebaseMessaging.instance.setAutoInitEnabled(true);
     await _requestPermission();
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    _foregroundSubscription ??= FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       final title = message.notification?.title ?? 'No title';
       final body = message.notification?.body ?? 'No body';
       debugPrint('Push received in foreground: $title - $body');
+      final callback = _onForegroundMessage;
+      if (callback == null) {
+        return;
+      }
+      try {
+        await callback(message);
+      } catch (_) {
+        // Best-effort UI refresh callback.
+      }
+    });
+
+    _notificationOpenSubscription ??=
+        FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      final callback = _onNotificationOpened;
+      if (callback == null) {
+        return;
+      }
+      try {
+        await callback(message);
+      } catch (_) {
+        // Best-effort UI refresh callback.
+      }
     });
 
     _tokenRefreshSubscription ??= FirebaseMessaging.instance.onTokenRefresh.listen(
@@ -44,11 +71,45 @@ class PushNotificationsService {
       },
     );
 
+    final initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _pendingInitialMessage = initialMessage;
+      final callback = _onNotificationOpened;
+      if (callback != null) {
+        _pendingInitialMessage = null;
+        try {
+          await callback(initialMessage);
+        } catch (_) {
+          // Best-effort UI refresh callback.
+        }
+      }
+    }
+
     _initialized = true;
   }
 
   void setOnTokenRefresh(Future<void> Function(String token)? callback) {
     _onTokenRefresh = callback;
+  }
+
+  void setOnForegroundMessage(
+    Future<void> Function(RemoteMessage message)? callback,
+  ) {
+    _onForegroundMessage = callback;
+  }
+
+  void setOnNotificationOpened(
+    Future<void> Function(RemoteMessage message)? callback,
+  ) {
+    _onNotificationOpened = callback;
+    final pendingMessage = _pendingInitialMessage;
+    if (pendingMessage == null || callback == null) {
+      return;
+    }
+    _pendingInitialMessage = null;
+    callback(pendingMessage).catchError((_) {
+      // Best-effort UI refresh callback.
+    });
   }
 
   Future<String?> getCurrentToken() async {

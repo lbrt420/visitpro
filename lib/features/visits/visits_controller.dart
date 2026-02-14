@@ -9,8 +9,23 @@ import '../../core/providers/in_memory_store_provider.dart';
 import '../../core/providers/session_provider.dart';
 import '../properties/properties_controller.dart';
 
-final visitsByPropertyProvider =
-    FutureProvider.family<List<Visit>, String>((ref, propertyId) async {
+bool _shouldFallbackToLocalVisits(Object error) {
+  if (error is DioException) {
+    if (error.response != null) {
+      return false;
+    }
+    return error.type == DioExceptionType.connectionError ||
+        error.type == DioExceptionType.connectionTimeout ||
+        error.type == DioExceptionType.receiveTimeout ||
+        error.type == DioExceptionType.unknown;
+  }
+  return true;
+}
+
+final visitsByPropertyProvider = FutureProvider.family<List<Visit>, String>((
+  ref,
+  propertyId,
+) async {
   final api = ref.watch(serviceProofApiProvider);
   final session = ref.watch(sessionProvider);
   final store = ref.watch(inMemoryStoreProvider);
@@ -21,22 +36,30 @@ final visitsByPropertyProvider =
         authToken: session.token!,
         propertyId: propertyId,
       );
-    } catch (_) {
+    } catch (error) {
+      if (!_shouldFallbackToLocalVisits(error)) {
+        rethrow;
+      }
       // Fall back to local data to keep MVP usable offline or before backend is ready.
     }
   }
   return store.fetchVisitsByProperty(propertyId);
 });
 
-final visitsByShareTokenProvider =
-    FutureProvider.family<List<Visit>, String>((ref, token) async {
+final visitsByShareTokenProvider = FutureProvider.family<List<Visit>, String>((
+  ref,
+  token,
+) async {
   final api = ref.watch(serviceProofApiProvider);
   final store = ref.watch(inMemoryStoreProvider);
 
   if (api != null) {
     try {
       return api.getShareVisits(shareToken: token);
-    } catch (_) {
+    } catch (error) {
+      if (!_shouldFallbackToLocalVisits(error)) {
+        rethrow;
+      }
       // Fall back to local data to keep MVP usable offline or before backend is ready.
     }
   }
@@ -44,20 +67,14 @@ final visitsByShareTokenProvider =
 });
 
 class ClientFeedItem {
-  const ClientFeedItem({
-    required this.property,
-    required this.visit,
-  });
+  const ClientFeedItem({required this.property, required this.visit});
 
   final Property property;
   final Visit visit;
 }
 
 class ReactionState {
-  const ReactionState({
-    required this.counts,
-    required this.selectedEmoji,
-  });
+  const ReactionState({required this.counts, required this.selectedEmoji});
 
   final Map<String, int> counts;
   final String? selectedEmoji;
@@ -80,17 +97,12 @@ class FeedReactionsNotifier extends Notifier<Map<String, ReactionState>> {
   ReactionState stateForVisit(String visitId) {
     return state[visitId] ??
         ReactionState(
-          counts: <String, int>{
-            for (final emoji in availableEmojis) emoji: 0,
-          },
+          counts: <String, int>{for (final emoji in availableEmojis) emoji: 0},
           selectedEmoji: null,
         );
   }
 
-  void toggleReaction({
-    required String visitId,
-    required String emoji,
-  }) {
+  void toggleReaction({required String visitId, required String emoji}) {
     final current = stateForVisit(visitId);
     final nextCounts = Map<String, int>.from(current.counts);
     final currentSelection = current.selectedEmoji;
@@ -105,8 +117,8 @@ class FeedReactionsNotifier extends Notifier<Map<String, ReactionState>> {
     }
 
     if (currentSelection != null) {
-      nextCounts[currentSelection] =
-          ((nextCounts[currentSelection] ?? 0) - 1).clamp(0, 99999);
+      nextCounts[currentSelection] = ((nextCounts[currentSelection] ?? 0) - 1)
+          .clamp(0, 99999);
     }
 
     nextCounts[emoji] = (nextCounts[emoji] ?? 0) + 1;
@@ -119,15 +131,17 @@ class FeedReactionsNotifier extends Notifier<Map<String, ReactionState>> {
 
 final feedReactionsProvider =
     NotifierProvider<FeedReactionsNotifier, Map<String, ReactionState>>(
-  FeedReactionsNotifier.new,
-);
+      FeedReactionsNotifier.new,
+    );
 
 final clientFeedProvider = FutureProvider<List<ClientFeedItem>>((ref) async {
   final properties = await ref.watch(propertiesProvider.future);
   final feed = <ClientFeedItem>[];
 
   for (final property in properties) {
-    final visits = await ref.watch(visitsByPropertyProvider(property.id).future);
+    final visits = await ref.watch(
+      visitsByPropertyProvider(property.id).future,
+    );
     for (final visit in visits) {
       feed.add(ClientFeedItem(property: property, visit: visit));
     }
@@ -136,6 +150,73 @@ final clientFeedProvider = FutureProvider<List<ClientFeedItem>>((ref) async {
   feed.sort((a, b) => b.visit.createdAt.compareTo(a.visit.createdAt));
   return feed;
 });
+
+class ClientNotificationsReadNotifier extends Notifier<Set<String>> {
+  static const _storageKeyPrefix = 'client_notifications_read_ids_';
+
+  @override
+  Set<String> build() {
+    final prefs = ref.watch(sharedPreferencesProvider);
+    final userId = ref.watch(sessionProvider.select((session) => session.userId));
+    if (prefs == null || userId == null || userId.isEmpty) {
+      return <String>{};
+    }
+    final raw = prefs.getStringList('$_storageKeyPrefix$userId') ?? const <String>[];
+    return raw.map((item) => item.trim()).where((item) => item.isNotEmpty).toSet();
+  }
+
+  void markRead(String visitId) {
+    final normalized = visitId.trim();
+    if (normalized.isEmpty || state.contains(normalized)) {
+      return;
+    }
+    state = <String>{...state, normalized};
+    _persist();
+  }
+
+  void markAllRead(Iterable<String> visitIds) {
+    final ids = visitIds.map((item) => item.trim()).where((item) => item.isNotEmpty).toSet();
+    if (ids.isEmpty) {
+      return;
+    }
+    state = <String>{...state, ...ids};
+    _persist();
+  }
+
+  void _persist() {
+    final prefs = ref.read(sharedPreferencesProvider);
+    final userId = ref.read(sessionProvider).userId;
+    if (prefs == null || userId == null || userId.isEmpty) {
+      return;
+    }
+    prefs.setStringList('$_storageKeyPrefix$userId', state.toList(growable: false));
+  }
+}
+
+final clientNotificationsReadProvider =
+    NotifierProvider<ClientNotificationsReadNotifier, Set<String>>(
+  ClientNotificationsReadNotifier.new,
+);
+
+class PendingVisitFocusNotifier extends Notifier<String?> {
+  @override
+  String? build() {
+    return null;
+  }
+
+  void focusVisit(String visitId) {
+    final normalized = visitId.trim();
+    state = normalized.isEmpty ? null : normalized;
+  }
+
+  void clear() {
+    state = null;
+  }
+}
+
+final pendingVisitFocusProvider = NotifierProvider<PendingVisitFocusNotifier, String?>(
+  PendingVisitFocusNotifier.new,
+);
 
 class VisitsController {
   VisitsController(this.ref);
@@ -245,20 +326,11 @@ class VisitsController {
 
       final bytes = await file.readAsBytes();
       final form = FormData.fromMap({
-        'file': MultipartFile.fromBytes(
-          bytes,
-          filename: file.name,
-        ),
+        'file': MultipartFile.fromBytes(bytes, filename: file.name),
       });
       await Dio().post(uploadUrl, data: form);
 
-      uploaded.add(
-        Photo(
-          url: publicUrl,
-          thumbnailUrl: null,
-          createdAt: now,
-        ),
-      );
+      uploaded.add(Photo(url: publicUrl, thumbnailUrl: null, createdAt: now));
     }
 
     return uploaded;

@@ -8,10 +8,7 @@ class AppLocalizations {
 
   final Locale locale;
 
-  static const supportedLocales = <Locale>[
-    Locale('en'),
-    Locale('es'),
-  ];
+  static const supportedLocales = <Locale>[Locale('en'), Locale('es')];
 
   static const LocalizationsDelegate<AppLocalizations> delegate =
       _AppLocalizationsDelegate();
@@ -49,8 +46,7 @@ class AppLocalizations {
   String get companyNameHint =>
       _isEs ? 'Ingresa el nombre de la empresa' : 'Enter company name';
   String get emailLabel => 'Email';
-  String get emailHint =>
-      _isEs ? 'nombre@empresa.com' : 'name@company.com';
+  String get emailHint => _isEs ? 'nombre@empresa.com' : 'name@company.com';
   String get passwordLabel => _isEs ? 'Contrasena' : 'Password';
   String get confirmPasswordLabel =>
       _isEs ? 'Confirmar contrasena' : 'Confirm password';
@@ -80,25 +76,31 @@ class AppLocalizations {
   String get errorUsernamePasswordRequired => _isEs
       ? 'Ingresa usuario y contrasena.'
       : 'Please enter username and password.';
-  String get errorRequiredFields =>
-      _isEs ? 'Completa todos los campos requeridos.' : 'Please complete all required fields.';
+  String get errorRequiredFields => _isEs
+      ? 'Completa todos los campos requeridos.'
+      : 'Please complete all required fields.';
   String get errorPasswordsMismatch =>
       _isEs ? 'Las contrasenas no coinciden.' : 'Passwords do not match.';
-  String get errorEmailPasswordRequired =>
-      _isEs ? 'Ingresa email y contrasena.' : 'Please enter email and password.';
-  String get errorInvalidCredentials =>
-      _isEs ? 'Usuario o contrasena invalidos.' : 'Invalid username or password.';
+  String get errorEmailPasswordRequired => _isEs
+      ? 'Ingresa email y contrasena.'
+      : 'Please enter email and password.';
+  String get errorInvalidCredentials => _isEs
+      ? 'Usuario o contrasena invalidos.'
+      : 'Invalid username or password.';
   String get errorCompanyAccountNotFound => _isEs
       ? 'No encontramos una cuenta de empresa con esos datos. Usa "Registrate ahora" para crearla.'
       : 'No company account found with those credentials. Use "Register now" to create one.';
-  String get errorEmailAlreadyExists =>
-      _isEs ? 'El email ya existe. Inicia sesion.' : 'Email already exists. Sign in instead.';
+  String get errorEmailAlreadyExists => _isEs
+      ? 'El email ya existe. Inicia sesion.'
+      : 'Email already exists. Sign in instead.';
 
-  String get allProperties => _isEs ? 'Todas las propiedades' : 'All properties';
+  String get allProperties =>
+      _isEs ? 'Todas las propiedades' : 'All properties';
   String get assignedProperties =>
       _isEs ? 'Propiedades asignadas' : 'Assigned properties';
-  String propertiesCount(int count) =>
-      _isEs ? '$count ${count == 1 ? 'propiedad' : 'propiedades'}' : '$count ${count == 1 ? 'property' : 'properties'}';
+  String propertiesCount(int count) => _isEs
+      ? '$count ${count == 1 ? 'propiedad' : 'propiedades'}'
+      : '$count ${count == 1 ? 'property' : 'properties'}';
   String get viewTimeline => _isEs ? 'Ver cronologia' : 'View timeline';
   String get manageAccess => _isEs ? 'Gestionar acceso' : 'Manage access';
   String get inviteWorker => _isEs ? 'Invitar trabajador' : 'Invite worker';
@@ -108,11 +110,12 @@ class AppLocalizations {
   String get createProperty => _isEs ? 'Crear propiedad' : 'Create property';
   String get onboardingCompanyTitle =>
       _isEs ? 'Onboarding de empresa' : 'Company onboarding';
-  String onboardingStepLabel(int current, int total) => _isEs
-      ? 'Paso $current de $total'
-      : 'Step $current of $total';
-  String get onboardingSkipForNow => _isEs ? 'Saltar por ahora' : 'Skip for now';
-  String get onboardingResume => _isEs ? 'Reanudar onboarding' : 'Resume onboarding';
+  String onboardingStepLabel(int current, int total) =>
+      _isEs ? 'Paso $current de $total' : 'Step $current of $total';
+  String get onboardingSkipForNow =>
+      _isEs ? 'Saltar por ahora' : 'Skip for now';
+  String get onboardingResume =>
+      _isEs ? 'Reanudar onboarding' : 'Resume onboarding';
   String get onboardingContinue => _isEs ? 'Continuar' : 'Continue';
   String get onboardingBack => _isEs ? 'Atras' : 'Back';
   String get onboardingMonthly => _isEs ? 'Mensual' : 'Monthly';
@@ -123,27 +126,22 @@ class AppLocalizations {
       ? 'Plan anual: 2 meses gratis (pagas 10).'
       : 'Yearly plan: 2 months free (pay for 10).';
   String get onboardingFinish => _isEs ? 'Finalizar' : 'Finish';
-  String get onboardingContinueWithoutInvites => _isEs
-      ? 'Continuar sin invitaciones'
-      : 'Continue without invites';
-  String get onboardingSendInvitesAndContinue => _isEs
-      ? 'Enviar invitaciones y continuar'
-      : 'Send invites and continue';
-  String get onboardingSendInvitesAndFinish => _isEs
-      ? 'Enviar invitaciones y finalizar'
-      : 'Send invites and finish';
+  String get onboardingContinueWithoutInvites =>
+      _isEs ? 'Continuar sin invitaciones' : 'Continue without invites';
+  String get onboardingSendInvitesAndContinue =>
+      _isEs ? 'Enviar invitaciones y continuar' : 'Send invites and continue';
+  String get onboardingSendInvitesAndFinish =>
+      _isEs ? 'Enviar invitaciones y finalizar' : 'Send invites and finish';
   String get onboardingCreatePropertyFirst => _isEs
       ? 'Primero debes crear la propiedad.'
       : 'Create the property first.';
-  String get onboardingCompanyStepTitle => _isEs
-      ? 'Configura tu empresa'
-      : 'Set up your company';
+  String get onboardingCompanyStepTitle =>
+      _isEs ? 'Configura tu empresa' : 'Set up your company';
   String get onboardingCompanyStepSubtitle => _isEs
       ? 'Confirma los datos principales y los servicios que ofreces.'
       : 'Confirm main details and services you provide.';
-  String get onboardingPropertyStepTitle => _isEs
-      ? 'Crea tu primera propiedad'
-      : 'Create your first property';
+  String get onboardingPropertyStepTitle =>
+      _isEs ? 'Crea tu primera propiedad' : 'Create your first property';
   String get onboardingPropertyStepSubtitle => _isEs
       ? 'Este paso habilita tu timeline y el trabajo diario.'
       : 'This unlocks your timeline and daily workflow.';
@@ -155,8 +153,9 @@ class AppLocalizations {
       : 'Invite an employee or coworker now, or do it later.';
   String get onboardingInviteClientLabel =>
       _isEs ? 'Email cliente (opcional)' : 'Client email (optional)';
-  String get onboardingInviteWorkerLabel =>
-      _isEs ? 'Invitar a un empleado o companero (opcional)' : 'Invite an employee or coworker (optional)';
+  String get onboardingInviteWorkerLabel => _isEs
+      ? 'Invitar a un empleado o companero (opcional)'
+      : 'Invite an employee or coworker (optional)';
   String get onboardingInvitesOptionalHint => _isEs
       ? 'Tambien podras enviar invitaciones desde Propiedades o Empresa.'
       : 'You can also send invites later from Properties or Company.';
@@ -174,9 +173,8 @@ class AppLocalizations {
       _isEs ? '16-40 clientes' : '16-40 clients';
   String get onboardingClientsRange41Plus =>
       _isEs ? '41+ clientes' : '41+ clients';
-  String get onboardingWeRecommendPlan => _isEs
-      ? 'Te recomendamos este plan'
-      : 'We recommend this plan for you';
+  String get onboardingWeRecommendPlan =>
+      _isEs ? 'Te recomendamos este plan' : 'We recommend this plan for you';
   String get onboardingPlanStarter => 'Starter';
   String get onboardingPlanGrowth => 'Growth';
   String get onboardingPlanPro => 'Pro';
@@ -195,10 +193,12 @@ class AppLocalizations {
       _isEs ? 'Reportes por email' : 'Email reports';
   String get onboardingPlanStarterExtraUserNote =>
       _isEs ? 'Usuario extra: €5 / mes' : 'Extra user: €5 / month';
-  String get onboardingPlanStarterExtraUserNoteYearly =>
-      _isEs ? 'Usuario extra: €50 / ano (2 meses gratis)' : 'Extra user: €50 / year (2 months free)';
-  String get onboardingPlanGrowthFeatureUsers =>
-      _isEs ? 'Hasta 5 cuentas de empleado incluidas' : 'Up to 5 employee accounts included';
+  String get onboardingPlanStarterExtraUserNoteYearly => _isEs
+      ? 'Usuario extra: €50 / ano (2 meses gratis)'
+      : 'Extra user: €50 / year (2 months free)';
+  String get onboardingPlanGrowthFeatureUsers => _isEs
+      ? 'Hasta 5 cuentas de empleado incluidas'
+      : 'Up to 5 employee accounts included';
   String get onboardingPlanGrowthFeatureEverythingStarter =>
       _isEs ? 'Todo lo de Starter' : 'Everything in Starter';
   String get onboardingPlanGrowthFeatureFlexibility =>
@@ -214,7 +214,8 @@ class AppLocalizations {
   String get onboardingAddonExtraUserDesc => _isEs
       ? 'Agrega usuarios adicionales cuando tu equipo crezca.'
       : 'Add additional users as your team grows.';
-  String get onboardingAddonWhiteLabeling => _isEs ? 'White labeling' : 'White labeling';
+  String get onboardingAddonWhiteLabeling =>
+      _isEs ? 'White labeling' : 'White labeling';
   String get onboardingAddonWhiteLabelingDesc => _isEs
       ? 'Usa tu propio logo, colores y marca en toda la experiencia del cliente.'
       : 'Use your own logo, colors, and branding across the full client experience.';
@@ -226,17 +227,14 @@ class AppLocalizations {
   String get onboardingRecommendedForCompanySize => _isEs
       ? 'Recomendado segun el tamano de tu empresa'
       : 'Recommended based on your company size';
-  String get onboardingFourteenDayTrialInfo => _isEs
-      ? 'Prueba gratis de 14 dias.'
-      : '14-day free trial.';
+  String get onboardingFourteenDayTrialInfo =>
+      _isEs ? 'Prueba gratis de 14 dias.' : '14-day free trial.';
   String get onboardingStartTrialCta =>
       _isEs ? 'Iniciar prueba de 14 dias' : 'Start 14-day free trial';
-  String onboardingDowngradeToPlan(String plan, String price) => _isEs
-      ? 'Bajar a $plan ($price)'
-      : 'Downgrade to $plan ($price)';
-  String onboardingUpgradeToPlan(String plan, String price) => _isEs
-      ? 'Subir a $plan ($price)'
-      : 'Upgrade to $plan ($price)';
+  String onboardingDowngradeToPlan(String plan, String price) =>
+      _isEs ? 'Bajar a $plan ($price)' : 'Downgrade to $plan ($price)';
+  String onboardingUpgradeToPlan(String plan, String price) =>
+      _isEs ? 'Subir a $plan ($price)' : 'Upgrade to $plan ($price)';
   String get onboardingUpgradeDowngradeAnytime => _isEs
       ? 'Puedes cambiar de plan en cualquier momento.'
       : 'You can upgrade or downgrade anytime.';
@@ -252,9 +250,11 @@ class AppLocalizations {
       ? 'Tu checkout de Stripe esta listo: $url'
       : 'Your Stripe checkout is ready: $url';
   String get ok => 'OK';
-  String get noPropertiesYet => _isEs ? 'Aun no hay propiedades' : 'No properties yet';
-  String get noAssignedPropertiesYet =>
-      _isEs ? 'Aun no tienes propiedades asignadas.' : 'No assigned properties yet.';
+  String get noPropertiesYet =>
+      _isEs ? 'Aun no hay propiedades' : 'No properties yet';
+  String get noAssignedPropertiesYet => _isEs
+      ? 'Aun no tienes propiedades asignadas.'
+      : 'No assigned properties yet.';
   String get ownerEmptyPropertiesHelp => _isEs
       ? 'Crea tu primera propiedad para comenzar a registrar visitas.'
       : 'Create your first property to start tracking service visits.';
@@ -274,22 +274,27 @@ class AppLocalizations {
   String removeAccessPrompt(String nameOrEmail) => _isEs
       ? 'Quitar acceso de $nameOrEmail a esta propiedad?'
       : 'Remove $nameOrEmail from this property?';
-  String get removedFromProperty =>
-      _isEs ? 'Acceso removido de la propiedad.' : 'Access removed from property.';
+  String get removedFromProperty => _isEs
+      ? 'Acceso removido de la propiedad.'
+      : 'Access removed from property.';
   String get emailRequiredError =>
       _isEs ? 'Ingresa un email valido' : 'Enter a valid email';
   String get cancel => _isEs ? 'Cancelar' : 'Cancel';
   String get sendInvite => _isEs ? 'Enviar invitacion' : 'Send invite';
-  String get clientInviteSent =>
-      _isEs ? 'Invitacion a cliente enviada (stub v1).' : 'Client invite sent (stubbed for v1).';
-  String get workerInviteSent =>
-      _isEs ? 'Invitacion a trabajador enviada (stub v1).' : 'Worker invite sent (stubbed for v1).';
-  String get viewerInviteSent =>
-      _isEs ? 'Invitacion enviada (stub v1).' : 'Viewer invite sent (stubbed for v1).';
+  String get clientInviteSent => _isEs
+      ? 'Invitacion a cliente enviada (stub v1).'
+      : 'Client invite sent (stubbed for v1).';
+  String get workerInviteSent => _isEs
+      ? 'Invitacion a trabajador enviada (stub v1).'
+      : 'Worker invite sent (stubbed for v1).';
+  String get viewerInviteSent => _isEs
+      ? 'Invitacion enviada (stub v1).'
+      : 'Viewer invite sent (stubbed for v1).';
 
   String get createPropertyTitle =>
       _isEs ? 'Crear propiedad' : 'Create property';
-  String get propertyNameLabel => _isEs ? 'Nombre de propiedad' : 'Property name';
+  String get propertyNameLabel =>
+      _isEs ? 'Nombre de propiedad' : 'Property name';
   String get addressLabel => _isEs ? 'Direccion' : 'Address';
   String get clientEmailOptionalRecommended => _isEs
       ? 'Email del cliente (opcional, recomendado)'
@@ -310,8 +315,7 @@ class AppLocalizations {
       _isEs ? 'Limite de propiedades' : 'Property limit';
   String companyPropertyLimitCount(int count) =>
       _isEs ? '$count propiedades' : '$count properties';
-  String get companyPropertyLimitUnlimited =>
-      _isEs ? 'Ilimitado' : 'Unlimited';
+  String get companyPropertyLimitUnlimited => _isEs ? 'Ilimitado' : 'Unlimited';
   String get companyPropertiesUsedLabel =>
       _isEs ? 'Propiedades usadas' : 'Properties used';
   String get companyPropertiesRemainingLabel =>
@@ -327,14 +331,19 @@ class AppLocalizations {
       ? 'Has alcanzado el limite de propiedades de tu plan. Actualiza tu suscripcion para crear mas.'
       : 'You have reached your plan property limit. Upgrade your subscription to create more.';
   String get upgradeNow => _isEs ? 'Actualizar ahora' : 'Upgrade now';
-  String get companyAddressLabel => _isEs ? 'Direccion de empresa' : 'Company address';
+  String get companyAddressLabel =>
+      _isEs ? 'Direccion de empresa' : 'Company address';
   String get orgNumberLabel => _isEs ? 'Numero de organizacion' : 'Org number';
   String get taxIdLabel => _isEs ? 'ID fiscal' : 'Tax ID';
-  String get companyServicesLabel => _isEs ? 'Servicios ofrecidos' : 'Services offered';
-  String get uploadCompanyLogo => _isEs ? 'Subir logo de empresa' : 'Upload company logo';
-  String get companyLogoUpdated => _isEs ? 'Logo de empresa actualizado.' : 'Company logo updated.';
+  String get companyServicesLabel =>
+      _isEs ? 'Servicios ofrecidos' : 'Services offered';
+  String get uploadCompanyLogo =>
+      _isEs ? 'Subir logo de empresa' : 'Upload company logo';
+  String get companyLogoUpdated =>
+      _isEs ? 'Logo de empresa actualizado.' : 'Company logo updated.';
   String get saveCompany => _isEs ? 'Guardar empresa' : 'Save company';
-  String get inviteWorkerToTeam => _isEs ? 'Invitar trabajador al equipo' : 'Invite worker to team';
+  String get inviteWorkerToTeam =>
+      _isEs ? 'Invitar trabajador al equipo' : 'Invite worker to team';
   String get inviteWorkerToTeamHelp => _isEs
       ? 'Agrega un trabajador por email para gestionarlo desde Empresa > Equipo.'
       : 'Add a worker by email so you can manage them from Company > Team.';
@@ -347,26 +356,29 @@ class AppLocalizations {
   String get accountExistsWithDifferentRole => _isEs
       ? 'Este email ya existe con un rol de cuenta incompatible.'
       : 'This email already exists with an incompatible account role.';
-  String get workerInvitedToTeam => _isEs
-      ? 'Trabajador invitado al equipo.'
-      : 'Worker invited to the team.';
+  String get workerInvitedToTeam =>
+      _isEs ? 'Trabajador invitado al equipo.' : 'Worker invited to the team.';
   String get noTeamMembersYet =>
       _isEs ? 'Aun no hay miembros del equipo.' : 'No team members yet.';
-  String get accessLevelOwner => _isEs ? 'Acceso: Propietario' : 'Access: Owner';
-  String get accessLevelAdmin => _isEs ? 'Acceso: Administrador' : 'Access: Admin';
-  String get accessLevelMember => _isEs ? 'Acceso: Empleado' : 'Access: Employee';
+  String get accessLevelOwner =>
+      _isEs ? 'Acceso: Propietario' : 'Access: Owner';
+  String get accessLevelAdmin =>
+      _isEs ? 'Acceso: Administrador' : 'Access: Admin';
+  String get accessLevelMember =>
+      _isEs ? 'Acceso: Empleado' : 'Access: Employee';
   String get youSuffix => _isEs ? '(Tu)' : '(You)';
   String get manageTeamMember => _isEs ? 'Gestionar' : 'Manage';
   String get makeAdmin => _isEs ? 'Asignar como administrador' : 'Set as admin';
-  String get makeEmployee => _isEs ? 'Asignar como empleado' : 'Set as employee';
+  String get makeEmployee =>
+      _isEs ? 'Asignar como empleado' : 'Set as employee';
   String get removeWorker => _isEs ? 'Quitar trabajador' : 'Remove worker';
   String removeWorkerPrompt(String nameOrEmail) => _isEs
       ? 'Quitar a $nameOrEmail del equipo?'
       : 'Remove $nameOrEmail from team?';
-  String get workerRemovedFromTeam => _isEs
-      ? 'Trabajador removido del equipo.'
-      : 'Worker removed from team.';
-  String get companyUpdated => _isEs ? 'Empresa actualizada.' : 'Company updated.';
+  String get workerRemovedFromTeam =>
+      _isEs ? 'Trabajador removido del equipo.' : 'Worker removed from team.';
+  String get companyUpdated =>
+      _isEs ? 'Empresa actualizada.' : 'Company updated.';
   String get adminGranted =>
       _isEs ? 'Permiso de administrador asignado.' : 'Admin access granted.';
   String get adminRevoked =>
@@ -377,8 +389,9 @@ class AppLocalizations {
   String propertyTimelineTitle(String name) =>
       _isEs ? 'Cronologia de $name' : '$name timeline';
   String get clientTimeline => _isEs ? 'Cronologia cliente' : 'Client timeline';
-  String visitsCount(int count) =>
-      _isEs ? '$count ${count == 1 ? 'visita' : 'visitas'}' : '$count ${count == 1 ? 'visit' : 'visits'}';
+  String visitsCount(int count) => _isEs
+      ? '$count ${count == 1 ? 'visita' : 'visitas'}'
+      : '$count ${count == 1 ? 'visit' : 'visits'}';
   String get noVisitsYet => _isEs ? 'Aun no hay visitas' : 'No visits yet';
   String get visitsWillAppearHere => _isEs
       ? 'Las visitas enviadas por trabajadores apareceran aqui.'
@@ -396,54 +409,64 @@ class AppLocalizations {
 
   String get newVisitTitle => _isEs ? 'Nueva visita' : 'New visit';
   String get visitNoteLabel => _isEs ? 'Nota de visita' : 'Visit note';
-  String get visitNoteHint =>
-      _isEs ? 'Que se hizo en esta visita?' : 'What was done during this visit?';
-  String get visitServiceTypeLabel => _isEs ? 'Servicio realizado' : 'Service performed';
-  String get visitServiceTypeRequired => _isEs
-      ? 'Por favor selecciona un servicio.'
-      : 'Please select a service.';
-  String get serviceChecklistTitle => _isEs ? 'Checklist del servicio' : 'Service checklist';
+  String get visitNoteHint => _isEs
+      ? 'Que se hizo en esta visita?'
+      : 'What was done during this visit?';
+  String get visitServiceTypeLabel =>
+      _isEs ? 'Servicio realizado' : 'Service performed';
+  String get visitServiceTypeRequired =>
+      _isEs ? 'Por favor selecciona un servicio.' : 'Please select a service.';
+  String get serviceChecklistTitle =>
+      _isEs ? 'Checklist del servicio' : 'Service checklist';
   String get selectServiceToLoadChecklist => _isEs
       ? 'Selecciona un servicio para ver su checklist.'
       : 'Select a service to load its checklist.';
-  String get noCompletedServiceChecklistItems => _isEs
-      ? 'No hay items completados.'
-      : 'No completed checklist items.';
+  String get noCompletedServiceChecklistItems =>
+      _isEs ? 'No hay items completados.' : 'No completed checklist items.';
   String get gallery => _isEs ? 'Galeria' : 'Gallery';
   String get camera => _isEs ? 'Camara' : 'Camera';
   String get retry => _isEs ? 'Reintentar' : 'Retry';
   String get noPhotosSelected =>
       _isEs ? 'No hay fotos seleccionadas.' : 'No photos selected.';
   String get submitVisit => _isEs ? 'Enviar visita' : 'Submit visit';
-  String get sendVisitEmailToggle => _isEs
-      ? 'Enviar esta visita por email'
-      : 'Email this visit report';
+  String get sendVisitEmailToggle =>
+      _isEs ? 'Enviar esta visita por email' : 'Email this visit report';
   String get sendVisitEmailHelp => _isEs
       ? 'Incluye nota, checklist y fotos para clientes que prefieren email.'
       : 'Includes note, checklist, and photos for clients who prefer email.';
   String get workerFallback => _isEs ? 'Trabajador' : 'Worker';
   String get networkFailureRetry =>
       _isEs ? 'Fallo de red. Reintenta.' : 'Network failure. Please retry.';
-  String get permissionDeniedLibrary =>
-      _isEs ? 'Permiso denegado para la galeria.' : 'Permission denied for photo library.';
+  String get permissionDeniedLibrary => _isEs
+      ? 'Permiso denegado para la galeria.'
+      : 'Permission denied for photo library.';
   String get couldNotPickImages =>
       _isEs ? 'No se pudieron seleccionar imagenes.' : 'Could not pick images.';
-  String get permissionDeniedCamera =>
-      _isEs ? 'Permiso denegado para la camara.' : 'Permission denied for camera.';
+  String get permissionDeniedCamera => _isEs
+      ? 'Permiso denegado para la camara.'
+      : 'Permission denied for camera.';
   String get couldNotOpenCamera =>
       _isEs ? 'No se pudo abrir la camara.' : 'Could not open camera.';
 
   String get yourFeed => _isEs ? 'Tu feed' : 'Your feed';
+  String get notifications => _isEs ? 'Notificaciones' : 'Notifications';
+  String get noNotificationsYet =>
+      _isEs ? 'Aun no hay notificaciones' : 'No notifications yet';
+  String get markAllAsRead => _isEs ? 'Marcar todo como leido' : 'Mark all as read';
+  String newVisitAtProperty(String propertyName) => _isEs
+      ? 'Nueva visita en tu propiedad $propertyName'
+      : 'New visit at your property $propertyName';
   String workerVisitedProperty(String workerName, String propertyName) => _isEs
       ? '$workerName visito $propertyName'
       : '$workerName visited $propertyName';
   String get youWord => _isEs ? 'Tu' : 'You';
-  String get visitedPropertyPhrase => _isEs ? 'visito la propiedad' : 'visited property';
-  String get visitedYourProperty => _isEs ? 'visito tu propiedad' : 'visited your property';
+  String get visitedPropertyPhrase =>
+      _isEs ? 'visito la propiedad' : 'visited property';
+  String get visitedYourProperty =>
+      _isEs ? 'visito tu propiedad' : 'visited your property';
   String get visitedWord => _isEs ? 'visito' : 'visited';
-  String visitedProperty(String propertyName) => _isEs
-      ? 'visito $propertyName'
-      : 'visited $propertyName';
+  String visitedProperty(String propertyName) =>
+      _isEs ? 'visito $propertyName' : 'visited $propertyName';
   String get noUpdatesYet => _isEs ? 'Aun no hay novedades' : 'No updates yet';
   String get feedEmptyHelp => _isEs
       ? 'Cuando tus propiedades asignadas reciban visitas, apareceran aqui.'
@@ -455,39 +478,36 @@ class AppLocalizations {
   String get garden => _isEs ? 'Jardin' : 'Garden';
 
   String get clientAccount => _isEs ? 'Cuenta cliente' : 'Client account';
-  String assignedPropertiesCount(int count) =>
-      _isEs ? '$count ${count == 1 ? 'propiedad' : 'propiedades'}' : '$count properties';
-  String get profileSettings => _isEs ? 'Configuracion de perfil' : 'Profile settings';
+  String assignedPropertiesCount(int count) => _isEs
+      ? '$count ${count == 1 ? 'propiedad' : 'propiedades'}'
+      : '$count properties';
+  String get profileSettings =>
+      _isEs ? 'Configuracion de perfil' : 'Profile settings';
   String get profilePhotoUrlLabel =>
       _isEs ? 'URL de foto de perfil' : 'Profile photo URL';
-  String get profilePhotoUrlHint => _isEs
-      ? 'https://...'
-      : 'https://...';
+  String get profilePhotoUrlHint => _isEs ? 'https://...' : 'https://...';
   String get saveProfile => _isEs ? 'Guardar perfil' : 'Save profile';
   String get passwordSettings =>
       _isEs ? 'Cambiar contrasena' : 'Change password';
   String get oldPassword => _isEs ? 'Contrasena actual' : 'Old password';
   String get newPassword => _isEs ? 'Nueva contrasena' : 'New password';
-  String get confirmNewPassword => _isEs
-      ? 'Confirmar nueva contrasena'
-      : 'Confirm new password';
-  String get updatePassword => _isEs ? 'Actualizar contrasena' : 'Update password';
+  String get confirmNewPassword =>
+      _isEs ? 'Confirmar nueva contrasena' : 'Confirm new password';
+  String get updatePassword =>
+      _isEs ? 'Actualizar contrasena' : 'Update password';
   String get profileUpdated =>
       _isEs ? 'Perfil actualizado.' : 'Profile updated.';
   String get passwordUpdated =>
       _isEs ? 'Contrasena actualizada.' : 'Password updated.';
-  String get usernameRequired => _isEs
-      ? 'El usuario es requerido.'
-      : 'Username is required.';
-  String get firstNameRequired => _isEs
-      ? 'El nombre es requerido.'
-      : 'First name is required.';
+  String get usernameRequired =>
+      _isEs ? 'El usuario es requerido.' : 'Username is required.';
+  String get firstNameRequired =>
+      _isEs ? 'El nombre es requerido.' : 'First name is required.';
   String get newPasswordMinLength => _isEs
       ? 'La nueva contrasena debe tener al menos 8 caracteres.'
       : 'New password must be at least 8 characters.';
-  String get passwordConfirmMismatch => _isEs
-      ? 'Las contrasenas no coinciden.'
-      : 'Passwords do not match.';
+  String get passwordConfirmMismatch =>
+      _isEs ? 'Las contrasenas no coinciden.' : 'Passwords do not match.';
   String get oldPasswordIncorrect => _isEs
       ? 'La contrasena actual es incorrecta.'
       : 'Old password is incorrect.';
@@ -497,9 +517,8 @@ class AppLocalizations {
   String get sessionExpiredSignInAgain => _isEs
       ? 'Tu sesion expiro. Inicia sesion nuevamente.'
       : 'Your session has expired. Please sign in again.';
-  String get userNotFound => _isEs
-      ? 'Usuario no encontrado.'
-      : 'User not found.';
+  String get userNotFound =>
+      _isEs ? 'Usuario no encontrado.' : 'User not found.';
   String get uploadNotConfigured => _isEs
       ? 'La carga de imagenes no esta configurada.'
       : 'Image upload is not configured.';
@@ -509,9 +528,8 @@ class AppLocalizations {
   String get uploadPublicUrlUnavailable => _isEs
       ? 'La imagen se subio, pero la URL publica no esta disponible.'
       : 'Image uploaded, but the public URL is unavailable.';
-  String get apiNotConfigured => _isEs
-      ? 'La API no esta configurada.'
-      : 'API is not configured.';
+  String get apiNotConfigured =>
+      _isEs ? 'La API no esta configurada.' : 'API is not configured.';
 
   String get forceSpanishDebug =>
       _isEs ? 'Forzar espanol (debug)' : 'Force Spanish (debug)';
@@ -519,7 +537,8 @@ class AppLocalizations {
       ? 'Activado: siempre espanol. Desactivado: idioma del dispositivo (EN por defecto salvo ES).'
       : 'On: always Spanish. Off: device language (EN by default unless ES).';
 
-  String get somethingWentWrong => _isEs ? 'Algo salio mal.' : 'Something went wrong.';
+  String get somethingWentWrong =>
+      _isEs ? 'Algo salio mal.' : 'Something went wrong.';
 
   String serviceTypeLabel(String id) {
     return switch (id) {
@@ -537,39 +556,59 @@ class AppLocalizations {
 
   String serviceChecklistItemLabel(String id) {
     return switch (id) {
-      'pool_filter_cleaned' => _isEs ? 'Filtro de piscina limpio' : 'Pool filter cleaned',
-      'pool_chemicals_added' => _isEs ? 'Quimicos de piscina agregados' : 'Pool chemicals added',
-      'pool_surface_skimmed' => _isEs ? 'Superficie de piscina limpia' : 'Pool surface skimmed',
+      'pool_filter_cleaned' =>
+        _isEs ? 'Filtro de piscina limpio' : 'Pool filter cleaned',
+      'pool_chemicals_added' =>
+        _isEs ? 'Quimicos de piscina agregados' : 'Pool chemicals added',
+      'pool_surface_skimmed' =>
+        _isEs ? 'Superficie de piscina limpia' : 'Pool surface skimmed',
       'pool_vacuumed' => _isEs ? 'Piscina aspirada' : 'Pool vacuumed',
-      'pool_water_level_checked' => _isEs ? 'Nivel de agua revisado' : 'Pool water level checked',
+      'pool_water_level_checked' =>
+        _isEs ? 'Nivel de agua revisado' : 'Pool water level checked',
       'garden_mowed' => _isEs ? 'Cesped cortado' : 'Garden mowed',
-      'garden_hedges_trimmed' => _isEs ? 'Setos podados' : 'Garden hedges trimmed',
-      'garden_weeds_removed' => _isEs ? 'Maleza removida' : 'Garden weeds removed',
-      'garden_irrigation_checked' => _isEs ? 'Riego revisado' : 'Garden irrigation checked',
+      'garden_hedges_trimmed' =>
+        _isEs ? 'Setos podados' : 'Garden hedges trimmed',
+      'garden_weeds_removed' =>
+        _isEs ? 'Maleza removida' : 'Garden weeds removed',
+      'garden_irrigation_checked' =>
+        _isEs ? 'Riego revisado' : 'Garden irrigation checked',
       'cleaning_floors_done' => _isEs ? 'Pisos limpiados' : 'Floors cleaned',
       'cleaning_kitchen_done' => _isEs ? 'Cocina limpiada' : 'Kitchen cleaned',
       'cleaning_bathroom_done' => _isEs ? 'Bano limpiado' : 'Bathroom cleaned',
       'cleaning_trash_removed' => _isEs ? 'Basura retirada' : 'Trash removed',
-      'property_visual_inspection' => _isEs ? 'Inspeccion visual completada' : 'Visual inspection completed',
-      'property_water_leaks_checked' => _isEs ? 'Fugas de agua revisadas' : 'Water leaks checked',
-      'property_electricity_checked' => _isEs ? 'Electricidad revisada' : 'Electricity checked',
-      'property_security_checked' => _isEs ? 'Seguridad revisada' : 'Security checked',
-      'key_entry_exit_logged' => _isEs ? 'Entrada/salida registrada' : 'Entry/exit logged',
-      'key_doors_windows_secured' => _isEs ? 'Puertas/ventanas aseguradas' : 'Doors/windows secured',
+      'property_visual_inspection' =>
+        _isEs ? 'Inspeccion visual completada' : 'Visual inspection completed',
+      'property_water_leaks_checked' =>
+        _isEs ? 'Fugas de agua revisadas' : 'Water leaks checked',
+      'property_electricity_checked' =>
+        _isEs ? 'Electricidad revisada' : 'Electricity checked',
+      'property_security_checked' =>
+        _isEs ? 'Seguridad revisada' : 'Security checked',
+      'key_entry_exit_logged' =>
+        _isEs ? 'Entrada/salida registrada' : 'Entry/exit logged',
+      'key_doors_windows_secured' =>
+        _isEs ? 'Puertas/ventanas aseguradas' : 'Doors/windows secured',
       'key_alarm_checked' => _isEs ? 'Alarma revisada' : 'Alarm checked',
-      'handyman_minor_repairs_done' => _isEs ? 'Reparaciones menores realizadas' : 'Minor repairs done',
-      'handyman_fixtures_checked' => _isEs ? 'Instalaciones revisadas' : 'Fixtures checked',
-      'handyman_tools_supplies_checked' => _isEs ? 'Herramientas/insumos revisados' : 'Tools/supplies checked',
+      'handyman_minor_repairs_done' =>
+        _isEs ? 'Reparaciones menores realizadas' : 'Minor repairs done',
+      'handyman_fixtures_checked' =>
+        _isEs ? 'Instalaciones revisadas' : 'Fixtures checked',
+      'handyman_tools_supplies_checked' =>
+        _isEs ? 'Herramientas/insumos revisados' : 'Tools/supplies checked',
       'pest_traps_checked' => _isEs ? 'Trampas revisadas' : 'Traps checked',
-      'pest_treatment_applied' => _isEs ? 'Tratamiento aplicado' : 'Treatment applied',
-      'pest_activity_logged' => _isEs ? 'Actividad de plagas registrada' : 'Pest activity logged',
-      'other_service_completed' => _isEs ? 'Servicio completado' : 'Service completed',
+      'pest_treatment_applied' =>
+        _isEs ? 'Tratamiento aplicado' : 'Treatment applied',
+      'pest_activity_logged' =>
+        _isEs ? 'Actividad de plagas registrada' : 'Pest activity logged',
+      'other_service_completed' =>
+        _isEs ? 'Servicio completado' : 'Service completed',
       _ => id,
     };
   }
 }
 
-class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+class _AppLocalizationsDelegate
+    extends LocalizationsDelegate<AppLocalizations> {
   const _AppLocalizationsDelegate();
 
   @override

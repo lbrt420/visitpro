@@ -16,11 +16,13 @@ class TimelineScreen extends ConsumerWidget {
     required this.propertyId,
     this.shareToken,
     this.isClientView = false,
+    this.initialVisitId,
   });
 
   final String propertyId;
   final String? shareToken;
   final bool isClientView;
+  final String? initialVisitId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -73,7 +75,9 @@ class TimelineScreen extends ConsumerWidget {
                     padding: const EdgeInsets.all(14),
                     child: Row(
                       children: [
-                        if ((currentProperty?.companyLogoUrl ?? '').startsWith('http'))
+                        if ((currentProperty?.companyLogoUrl ?? '').startsWith(
+                          'http',
+                        ))
                           Padding(
                             padding: const EdgeInsets.only(right: 10),
                             child: ClipRRect(
@@ -83,8 +87,10 @@ class TimelineScreen extends ConsumerWidget {
                                 width: 36,
                                 height: 36,
                                 fit: BoxFit.cover,
-                                errorBuilder: (_, __, ___) =>
-                                    const Icon(Icons.business_outlined, size: 22),
+                                errorBuilder: (_, __, ___) => const Icon(
+                                  Icons.business_outlined,
+                                  size: 22,
+                                ),
                               ),
                             ),
                           ),
@@ -144,7 +150,11 @@ class TimelineScreen extends ConsumerWidget {
                           spacing: 8,
                           runSpacing: 8,
                           children: visit.serviceChecklist
-                              .map((item) => _checkChip(l10n.serviceChecklistItemLabel(item)))
+                              .map(
+                                (item) => _checkChip(
+                                  l10n.serviceChecklistItemLabel(item),
+                                ),
+                              )
                               .toList(),
                         ),
                       const SizedBox(height: 12),
@@ -173,11 +183,15 @@ class TimelineScreen extends ConsumerWidget {
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: Colors.grey.shade300),
+                                    border: Border.all(
+                                      color: Colors.grey.shade300,
+                                    ),
                                   ),
                                   child: photo.url.startsWith('http')
                                       ? ClipRRect(
-                                          borderRadius: BorderRadius.circular(8),
+                                          borderRadius: BorderRadius.circular(
+                                            8,
+                                          ),
                                           child: Image.network(
                                             photo.thumbnailUrl ?? photo.url,
                                             fit: BoxFit.cover,
@@ -189,7 +203,8 @@ class TimelineScreen extends ConsumerWidget {
                                 ),
                               );
                             },
-                            separatorBuilder: (_, __) => const SizedBox(width: 8),
+                            separatorBuilder: (_, __) =>
+                                const SizedBox(width: 8),
                             itemCount: visit.photos.length,
                           ),
                         ),
@@ -223,9 +238,9 @@ class TimelineScreen extends ConsumerWidget {
 
   Property? _resolveProperty(List<Property>? properties) {
     return properties?.cast<Property?>().firstWhere(
-          (item) => item?.id == propertyId,
-          orElse: () => null,
-        );
+      (item) => item?.id == propertyId,
+      orElse: () => null,
+    );
   }
 
   String _formatDate(BuildContext context, DateTime date) {
@@ -240,13 +255,7 @@ class TimelineScreen extends ConsumerWidget {
   }
 
   Widget _checkChip(String label) {
-    return Chip(
-      avatar: Icon(
-        Icons.check_circle,
-        size: 16,
-      ),
-      label: Text(label),
-    );
+    return Chip(avatar: Icon(Icons.check_circle, size: 16), label: Text(label));
   }
 
   Future<void> _openPhotoPreview({
@@ -293,10 +302,7 @@ class _EmptyTimelineState extends StatelessWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 6),
-            Text(
-              l10n.visitsWillAppearHere,
-              textAlign: TextAlign.center,
-            ),
+            Text(l10n.visitsWillAppearHere, textAlign: TextAlign.center),
           ],
         ),
       ),

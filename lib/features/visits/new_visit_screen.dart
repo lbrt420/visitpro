@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -211,7 +210,7 @@ class _NewVisitScreenState extends ConsumerState<NewVisitScreen> {
           ),
           const SizedBox(height: 16),
           DropdownButtonFormField<String>(
-            value: selectedServiceType != null && serviceTypes.contains(selectedServiceType)
+            initialValue: selectedServiceType != null && serviceTypes.contains(selectedServiceType)
                 ? selectedServiceType
                 : null,
             items: serviceTypes

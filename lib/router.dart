@@ -47,7 +47,10 @@ final routerProvider = Provider<GoRouter>((ref) {
             routes: [
               GoRoute(
                 path: '/home',
-                builder: (context, state) => const ClientFeedScreen(),
+                builder: (context, state) {
+                  final visitId = state.uri.queryParameters['visitId'];
+                  return ClientFeedScreen(initialVisitId: visitId);
+                },
               ),
             ],
           ),
@@ -70,7 +73,8 @@ final routerProvider = Provider<GoRouter>((ref) {
                 path: '/properties/:propertyId/timeline',
                 builder: (context, state) {
                   final propertyId = state.pathParameters['propertyId'] ?? '';
-                  return TimelineScreen(propertyId: propertyId);
+                  final visitId = state.uri.queryParameters['visitId'];
+                  return TimelineScreen(propertyId: propertyId, initialVisitId: visitId);
                 },
               ),
               GoRoute(

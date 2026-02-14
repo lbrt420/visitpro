@@ -84,8 +84,8 @@ class ServiceProofApi {
       Endpoints.profile,
       authToken: authToken,
       data: <String, dynamic>{
-        if (username != null) 'username': username,
-        if (avatarUrl != null) 'avatarUrl': avatarUrl,
+        'username': ?username,
+        'avatarUrl': ?avatarUrl,
       },
     );
     final map = _asMap(response.data);
@@ -324,12 +324,12 @@ class ServiceProofApi {
       Endpoints.company,
       authToken: authToken,
       data: <String, dynamic>{
-        if (name != null) 'name': name,
-        if (address != null) 'address': address,
-        if (orgNumber != null) 'orgNumber': orgNumber,
-        if (taxId != null) 'taxId': taxId,
-        if (logoUrl != null) 'logoUrl': logoUrl,
-        if (servicesOffered != null) 'servicesOffered': servicesOffered,
+        'name': ?name,
+        'address': ?address,
+        'orgNumber': ?orgNumber,
+        'taxId': ?taxId,
+        'logoUrl': ?logoUrl,
+        'servicesOffered': ?servicesOffered,
       },
     );
   }
